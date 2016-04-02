@@ -2,3 +2,4 @@ venv
 projects
 *.pyc
 *.swp
+.envrc

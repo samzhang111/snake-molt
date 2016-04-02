@@ -1,6 +1,6 @@
 import unittest
 from parse_graph import GraphParser
-from expects import expect, equal
+from expects import expect, equal, be_a
 
 
 class TestParseGraph(unittest.TestCase):
@@ -20,3 +20,15 @@ class TestParseGraph(unittest.TestCase):
             'other': ['conf.py']
             }))
 
+    def test_get_d3_node_edge_representation_from_graph(self):
+        parser = GraphParser()
+        graph = {
+                'a': ['b', 'c'],
+                'b': ['a']
+                }
+
+        nodes, edges = parser.d3_representation(graph)
+
+        expect(nodes).to(be_a(list))
+        expect(set(nodes)).to(equal({'a', 'b', 'c'}))
+        expect(edges).to(equal([('a', 'b'), ('a', 'c'), ('b', 'a')]))

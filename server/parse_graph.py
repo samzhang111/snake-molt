@@ -23,10 +23,25 @@ class GraphParser(object):
 
         return graph
 
+    def d3_representation(self, graph):
+        nodes = set(graph.keys())
+        edges = []
+        for start, dests in graph.items():
+            for n in dests:
+                edges.append((start, n))
+                nodes.add(n)
+
+        return list(nodes), edges
+
 if __name__ == '__main__':
     graph_string = sys.stdin.read()
 
     parser = GraphParser()
     graph = parser.parse(graph_string)
 
-    print(json.dumps(graph))
+    nodes, edges = parser.d3_representation(graph)
+
+    print(json.dumps({
+        'nodes': nodes,
+        'edges': edges
+        }))
